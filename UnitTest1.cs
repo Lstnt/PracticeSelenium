@@ -43,8 +43,9 @@ public class Tests
         wait.Until(ExpectedConditions.ElementToBeClickable(By.CssSelector("[data-tid='Title']")));
     }
 
-    private void BigChrome()
+    private void BigScreen_Chrome()
     {
+        //"Костыль" для одного теста
         driver.Quit();
         var options = new ChromeOptions();
         options.AddArguments("--start-maximized");
@@ -53,14 +54,14 @@ public class Tests
         wait = new WebDriverWait(driver,TimeSpan.FromSeconds(3));
     }
     [Test]
-    public void Authorization_test()
+    public void Authorization_Test()
     {
         Authorize();
         Assert.That(driver.Title, Does.Contain("Новости"),"На главной странице,после авторизации, не найден заголовок Новости");  
     }
 
     [Test]
-    public void MyProfileSmallScreen()
+    public void Navigation_MyProfile_SmallScreen()
     {
         Authorize();
         
@@ -78,10 +79,10 @@ public class Tests
     }
 
  [Test]
-    public void MyProfileBigScreen()
+    public void Navigation_MyProfile_BigScreen()
     {
         
-        BigChrome();
+        BigScreen_Chrome();
         Authorize();
         
         var avatar = driver.FindElement(By.CssSelector("[data-tid='DropdownButton']"));
@@ -98,19 +99,19 @@ public class Tests
 
 
     [Test]
-    public void ProfileEdit()
+    public void Edit_AdditionalEmail_MyProfile()
     {
         Authorize();
 
         driver.Navigate().GoToUrl("https://staff-testing.testkontur.ru/profile/settings/edit");
         wait.Until(ExpectedConditions.ElementToBeClickable(By.CssSelector("[data-tid='Title']")));
 
-        var additionalEmail = driver.FindElement(By.CssSelector("[data-tid='AdditionalEmail']"))
+        var additional = driver.FindElement(By.CssSelector("[data-tid='AdditionalEmail']"))
                                     .FindElement(By.CssSelector("input[type='text']"));
-        additionalEmail.Click();
-        additionalEmail.SendKeys(Keys.Control + "a"); 
-        additionalEmail.SendKeys(Keys.Delete);
-        additionalEmail.SendKeys("tester@mail.ru");
+        additional.Click();
+        additional.SendKeys(Keys.Control + "a"); 
+        additional.SendKeys(Keys.Delete);
+        additional.SendKeys("tester@mail.ru");
 
         driver.FindElement(By.TagName("body")).SendKeys(Keys.Home);
         
@@ -125,7 +126,7 @@ public class Tests
     }
     
     [Test]
-    public void JoinCommunity()
+    public void Join_OpenCommunity()
     {
         Authorize();
 
@@ -143,7 +144,7 @@ public class Tests
     }
 
     [Test]
-    public void SearchFile()
+    public void Search_File()
     {
         Authorize();
 
